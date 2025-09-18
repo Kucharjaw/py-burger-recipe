@@ -6,6 +6,8 @@ class Validator(ABC):
         self.protected_name = "_" + name
 
     def __get__(self, instance: object, owner: type) -> object:
+        if instance is None:
+            return self
         return instance.__dict__[self.protected_name]
 
     def __set__(self, instance: object, value: any) -> None:
