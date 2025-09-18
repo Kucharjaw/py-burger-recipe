@@ -8,11 +8,11 @@ class Validator(ABC):
     def __get__(self, instance: object, owner: type) -> object:
         if instance is None:
             return self
-        return instance.__dict__[self.protected_name]
+        return instance.__dict__.get(self.protected_name, None)
 
     def __set__(self, instance: object, value: any) -> None:
         self.validate(value)
-        instance.__dict__[self.protected_name] = value
+        setattr(instance, self.protected_name, value)
 
     @abstractmethod
     def validate(self, value: any) -> None:
